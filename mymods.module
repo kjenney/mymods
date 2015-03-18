@@ -1,0 +1,63 @@
+<?php
+
+
+/**
+ * @file
+ * Modifications for my site
+ * External database
+ */
+
+/**
+* Implements hook_block_info().
+*/
+function mymods_block_info() {
+	$blocks = array();
+	$blocks['my_block'] = array('info' => t('Custom User Login Form'),);
+	return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function mymods_mods_block_view($delta=”) {
+$block = array();
+
+switch($delta) {
+    case 'my_block':
+       $block['content'] = custom_user_login();
+       break;
+}
+return $block;
+}
+ 
+/**
+* Custom function to assemble renderable array for block content.
+* Returns a renderable array with the block content.
+* @return
+* returns a renderable array of block content.
+*/
+function custom_user_login() {
+global $user;
+   $list = array();
+   if ( user_is_logged_in() ) {
+    $list[] = 'Welcome ' . l($user->name, 'user/'.$user->uid);
+    $list[] = l(t('Logout'), 'user/logout');
+  }
+  else {
+    $list[] = l(t('Login'), 'user');
+    $list[] = l(t('Register'), 'user/register');
+  }
+  $options = array(
+    'items' => $list,
+    'type' => 'ul',
+    'attributes' => array(
+      'class' => 'inline'
+    ),
+  );
+  $block['content'] = theme('item_list', $options);
+  return $block;
+}
+
+
+
+
