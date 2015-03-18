@@ -1,0 +1,4 @@
+name = My Mods
+description = "Modifications to make my site awesome."
+package = Awesome
+core = 7.x
